@@ -9,23 +9,52 @@ class reader(object):
     """
     Read data from data set file.
     """
-    def __init__(self, filename):
-        self.file = filename
+    def __init__(self, conf):
+        self.file = conf['filename']
+        self.maxlen = conf['maxlen']
+        self.sample_size = conf['sample_size']
+        self.cntxwnd = conf['context_size']
         self.features = []
         self.targets = []
 
     def get_data(self):
         read_in = pandas.read_csv(self.file)
-        for i in xrange(len(read_in)):
-        	feature = []
-        	target = 0
-        	for key in read_in.columns.values:
-        		feature.append(reader[key][i])
-    		target = feature[-1]
-    		feature = feature[:-1]
-    		self.features.append(feature)
-    		self.targets.append(target)
+        # for i in xrange(len(read_in)):
+        for i in xrange(self.sample_size): 
+            feature = []
+            target = 0
+            for key in read_in.columns.values[4:]:
+                if key == 'BidPrice1':
+                    target = [float(read_in[key][i])]
+                    continue
+                feature.append(float(read_in[key][i]))
+            self.features.append(feature)
+            self.targets.append(target)
 
-    def get_buffer(self):
-        pass
+    def padding(self):
+        # print len(self.features), len(self.targets)
+        features = []
+        empty = [0]*27
+        self.features = [empty] * self.cntxwnd + self.features + [empty] * self.cntxwnd
+        # print len(self.features), len(self.targets)
+        for i in xrange(self.cntxwnd, self.cntxwnd + self.sample_size):
+            feature = []
+            for j in xrange(self.cntxwnd, 0, -1):
+                feature += self.features[i - j]
+            for j in xrange(0, self.cntxwnd + 1, 1):
+                feature += self.features[i + j]
+            features.append(feature)
+
+        targets = self.targets[:]
+        # print len(features), len(targets)
+        self.features = []
+        self.targets = []
+        for i in xrange(0, self.sample_size, self.maxlen):
+            self.features.append(features[i:i+self.maxlen])
+            self.targets.append(targets[i:i+self.maxlen])
+            # print self.features
+
+
+
+        
         
