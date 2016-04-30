@@ -25,7 +25,7 @@ class reader(object):
             target = 0
             for key in read_in.columns.values[4:]:
                 if key == 'BidPrice1':
-                    target = [float(read_in[key][i])]
+                    target = [float(read_in[key][i]/10000)]
                     continue
                 feature.append(float(read_in[key][i]))
             self.features.append(feature)
@@ -45,9 +45,10 @@ class reader(object):
                 feature += self.features[i + j]
             features.append(feature)
 
-        targets = self.targets[:]
         # print len(features), len(targets)
+        # self.features = features
         self.features = []
+        targets = self.targets[:]
         self.targets = []
         for i in xrange(0, self.sample_size, self.maxlen):
             self.features.append(features[i:i+self.maxlen])
