@@ -6,7 +6,7 @@
 from utils import reader
 from utils import lstm
 
-file1 = "data\TK_IH1609[s20160401_00093000_e20160428 00153000]20160429_1032.csv"
+file1 = "data\TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
 
 
 
