@@ -4,6 +4,7 @@
 from keras.models import Sequential
 from keras.layers import LSTM, Activation, Dense, Reshape
 from keras.optimizers import SGD
+from keras.utils.visualize_util import plot
 import activations
 
 
@@ -28,8 +29,10 @@ class lstm(object):
         self.model.add(LSTM(output_dim = 10,init='uniform'))
         self.model.add(Dense(1,init='uniform'))
         self.model.add(Activation('tanh'))
-        self.model.compile(loss='mse', sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True))
+        self.model.compile(loss='mse', optimizer = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True))
 
+    def draw(self,save_pic):
+        plot(self.model, to_file=save_pic)
     def fit(self, x, y):
         cnt = 0
         assert(self.maxlen <= len(x))
