@@ -7,37 +7,38 @@ from utils import reader
 from utils import lstm
 import numpy as np
 
-file1 = "data/TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
+file1 = "data/new_gz/TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
+file2 = "data/new_gz/TK_IC1604[s20160401 00093000_e20160428 00153000]20160429_1033.csv"
 
 
 
 conf = {
-    'filename':file1,
-    'nb_epoch':1000,
+    'filename':file2,
+    'nb_epoch':10000,
     'batch_size':5,
-    'maxlen':20,
+    'maxlen':2,
     'sample_size':10000,
     'context_size':0,
-    'input_dim':27,
+    'input_dim':32,
     'hidden_size': 100,
-    'learning_rate':0.01
+    'learning_rate':0.05,
+    'scale': 10000
 }
 
-# print "Begin to load data"
-# reader = reader(conf)
-# reader.get_data()
-# reader.padding()
-# features = reader.features
-# targets = reader.targets
-# print "Load data complete"
-
+print "Begin to load data"
+reader = reader(conf)
+reader.get_data()
+reader.padding()
+features = reader.features
+targets = reader.targets
+print "Load data complete"
 
 print "Begin to build Networks"
 network = lstm(conf)
 network.build_net()
 print "Build Networks complete"
-# print network.fit(features, targets)
-network.draw("model.png")
+print  network.fit(features, targets)
+# network.draw("model.png")
 
 
 
