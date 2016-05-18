@@ -5,7 +5,7 @@
 
 网络结构：
 
-![如图所示](https://github.com/CodePothunter/SteelTrader/model.png)
+![如图所示](https://github.com/CodePothunter/SteelTrader/blob/hi-lstm/model.png)
 
 由10(self.interval)个LSTM层拼接到一起，再输入到一个LSTM层中，其中每一个LSTM输入长度60(self.maxlen)**期货信息**序列，每个**期货信息**由32(self.input_dim)个特征组成。
 
