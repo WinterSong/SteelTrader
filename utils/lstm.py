@@ -1,6 +1,7 @@
 # Author: CodePothunter
 # Date  : 2016-04-30
 
+import time
 from keras.models import Sequential
 from keras.layers import LSTM, Activation, Dense, Reshape, Merge
 from keras.optimizers import SGD
@@ -47,21 +48,23 @@ class lstm(object):
         assert(self.maxlen <= len(x))
         score = 0
         while cnt < self.nb_epoch:
+            t_beg = time.time()
             cntt = 0
             for i in xrange(len(x)):
                 x_ = [np.array(sb) for sb in x[i]]
                 y_ = np.array(y[i])
                 score_ = self.model.train_on_batch(x_, y_)
                 pred_ = self.model.predict_on_batch(x_)
-                print pred_, y_
+                # print pred_, y_
 
                 for j in xrange(len(pred_)):
-                    print pred_[j], y_[j]
+                    # print pred_[j], y_[j]
                     score_ += math.fabs(pred_[j]-y_[j])*self.scale
                 score += score_/len(pred_)
                 cntt += 1
             score /= cntt
-            print "Epoch {0}, score is {1}".format(cnt, score)
+            t_end = time.time()
+            print "Epoch {0}, score is {1}, elapse {2:.4f} seconds".format(cnt, score, t_end- t_beg )
             cnt += 1
         return 0
 

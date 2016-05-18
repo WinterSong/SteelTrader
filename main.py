@@ -26,24 +26,25 @@ conf = {
     'interval': 10,
 }
 
-# print "Begin to load data"
-# reader = reader(conf)
-# # reader.get_data()
-# # reader.save_data()
-# reader.load_data()
-# reader.padding()
-# features = reader.features
-# targets = reader.targets
-# print "Load data complete"
+print "Begin to load data"
+reader = reader(conf)
+# reader.get_data()
+# reader.save_data()
+reader.load_data()
+reader.padding()
+features = reader.features
+targets = reader.targets
+print "Load data complete"
+print len(features[0]), len(features[0][0])
+print len(targets[0]), len(targets[0][0])
 
-# print len(features[0]), len(features[0][0])
-# print len(targets[0]), len(targets[0][0])
 print "Begin to build Networks"
 network = lstm(conf)
 network.build_net()
 print "Build Networks complete"
-# print  network.fit(features, targets)
-network.draw("model.png")
+print "Begin to train the data"
+print  network.fit(features, targets)
+# network.draw("model.png")
 
 
 
