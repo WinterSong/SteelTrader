@@ -1,6 +1,6 @@
 # 期货价格预测器
 
-这部分内容在branch Muti-LSTM中
+这部分内容在branch hi-LSTM中
 ## 使用指南
 
 网络结构：
