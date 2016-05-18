@@ -7,6 +7,18 @@ from utils import reader
 from utils import lstm
 import numpy as np
 
+##############################
+#### IF YOU WANNA USE GPU ####
+##############################
+
+# import theano
+# theano.config.device = 'gpu'
+# theano.config.floatX = 'float32'
+
+
+
+
+
 file1 = "data/new_gz/TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
 file2 = "data/new_gz/TK_IC1604[s20160401 00093000_e20160428 00153000]20160429_1033.csv"
 
