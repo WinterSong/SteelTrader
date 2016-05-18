@@ -16,29 +16,34 @@ conf = {
     'filename':file2,
     'nb_epoch':10000,
     'batch_size':5,
-    'maxlen':2,
-    'sample_size':10000,
+    'maxlen': 60,
+    # 'sample_size':6000,
     'context_size':0,
     'input_dim':32,
     'hidden_size': 100,
     'learning_rate':0.05,
-    'scale': 10000
+    'scale': 10000,
+    'interval': 10,
 }
 
-print "Begin to load data"
-reader = reader(conf)
-reader.get_data()
-reader.padding()
-features = reader.features
-targets = reader.targets
-print "Load data complete"
+# print "Begin to load data"
+# reader = reader(conf)
+# # reader.get_data()
+# # reader.save_data()
+# reader.load_data()
+# reader.padding()
+# features = reader.features
+# targets = reader.targets
+# print "Load data complete"
 
+# print len(features[0]), len(features[0][0])
+# print len(targets[0]), len(targets[0][0])
 print "Begin to build Networks"
 network = lstm(conf)
 network.build_net()
 print "Build Networks complete"
-print  network.fit(features, targets)
-# network.draw("model.png")
+# print  network.fit(features, targets)
+network.draw("model.png")
 
 
 
