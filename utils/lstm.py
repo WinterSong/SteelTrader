@@ -46,6 +46,7 @@ class lstm(object):
     def fit(self, x, y):
         cnt = 0
         assert(self.maxlen <= len(x))
+        loss = 0
         score = 0
         while cnt < self.nb_epoch:
             t_beg = time.time()
@@ -54,17 +55,20 @@ class lstm(object):
                 x_ = [np.array(sb) for sb in x[i]]
                 y_ = np.array(y[i])
                 score_ = self.model.train_on_batch(x_, y_)
+                loss_ = 0
                 pred_ = self.model.predict_on_batch(x_)
                 # print pred_, y_
 
                 for j in xrange(len(pred_)):
                     # print pred_[j], y_[j]
-                    score_ += math.fabs(pred_[j]-y_[j])*self.scale
-                score += score_/len(pred_)
+                    loss_ += math.fabs(pred_[j]-y_[j])*self.scale
+                score += score_
+                loss += loss_
                 cntt += 1
             score /= cntt
+            loss /= cntt
             t_end = time.time()
-            print "Epoch {0}, score is {1}, elapse {2:.4f} seconds".format(cnt, score, t_end- t_beg )
+            print "Epoch {0}, score is {1},loss is {2}, elapse {3:.4f} seconds".format(cnt, score, loss, t_end- t_beg )
             cnt += 1
         return 0
 
