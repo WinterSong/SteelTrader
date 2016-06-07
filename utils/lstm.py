@@ -47,8 +47,8 @@ class lstm(object):
         cnt = 0
         assert(self.maxlen <= len(x))
         loss = 0
-        score = 0
         while cnt < self.nb_epoch:
+            score = 0
             t_beg = time.time()
             cntt = 0
             for i in xrange(len(x)):
