@@ -16,19 +16,19 @@ conf = {
     'filename':file2,
     'nb_epoch':10000,
     'batch_size':5,
-    'maxlen':2,
+    'maxlen': 1,
     'sample_size':10000,
     'context_size':0,
     'input_dim':32,
     'hidden_size': 100,
     'learning_rate':0.05,
-    'scale': 10000
+    'scale': 1
 }
 
 print "Begin to load data"
 reader = reader(conf)
 reader.get_data()
-reader.padding()
+# reader.padding()
 features = reader.features
 targets = reader.targets
 print "Load data complete"
