@@ -26,8 +26,13 @@ class reader(object):
             feature = []
             for key in read_in.columns.values[4:]:
                 feature.append(float(read_in[key][i]))
-            target = [0,0]
-            target[int(float(read_in['LastPrice'][i+1]) > float(read_in['LastPrice'][i]))]=1
+            target = [0,0,0] # rising falling unchanging
+            if float(read_in['LastPrice'][i+1]) > float(read_in['LastPrice'][i]):
+                target[0] = 1
+            elif float(read_in['LastPrice'][i+1]) == float(read_in['LastPrice'][i]):
+                target[1] = 1
+            else:
+                target[2] = 1
             self.features.append(feature)
             self.targets.append(target)
 

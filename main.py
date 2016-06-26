@@ -16,7 +16,7 @@ conf = {
     'filename':file2,
     'nb_epoch':10000,
     'batch_size':5,
-    'maxlen': 1,
+    'maxlen': 32,
     'sample_size':10000,
     'context_size':0,
     'input_dim':32,
@@ -29,8 +29,21 @@ print "Begin to load data"
 reader = reader(conf)
 reader.get_data()
 # reader.padding()
+a = 0
+b = 0
+c = 0
+for i in reader.targets:
+    if i[0] == 1:
+        a += 1
+    elif i[1] == 1:
+        b += 1
+    elif i[2] == 1:
+        c += 1
+print a, b, c, a+b+c
+exit()
 features = reader.features
 targets = reader.targets
+print np.array(features).shape
 print "Load data complete"
 
 print "Begin to build Networks"

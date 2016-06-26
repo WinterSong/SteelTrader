@@ -46,14 +46,16 @@ class lstm(object):
         for i in xrange(0, len(x), self.maxlen):
             x_.append(x[i:i+self.maxlen])
             y_.append(y[i:i+self.maxlen])
-
-        # print np.array(x_).shape
+        if len(x_[-1]) != len(x_[0]):
+            x_ = x_[:-1]
+            y_ = y_[:-1]
+        print np.array(x_).shape
         # # self.model.fit(x_,y_, nb_epoch=self.nb_epoch)
         # print np.array(x).shape, np.array(y).shape
         # assert(self.maxlen <= len(x))
         while cnt < self.nb_epoch:
             hit = 0
-            score_ = self.model.fit(x_, y_, nb_epoch=1)
+            score_ = self.model.fit(x_, y_, nb_epoch=5)
             pred_ = self.model.predict(x_)
                 # print score_, pred_
             for i in xrange(len(pred_)):
