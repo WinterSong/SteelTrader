@@ -4,7 +4,7 @@
 
 import pandas
 import sys
-
+import numpy as np
 
 class reader(object):
     """
@@ -18,23 +18,48 @@ class reader(object):
         self.scale = conf['scale']
         self.features = []
         self.targets = []
+        self.testset = []
+        self.testtar = []
 
     def get_data(self):
         read_in = pandas.read_csv(self.file)
+        for item in read_in['Mode'][34:self.sample_size+34]:
+            if item==0:
+                self.targets.append([1,0,0,0])
+            elif item ==1:
+                self.targets.append([0,1,0,0])
+            elif item ==2:
+                self.targets.append([0,0,1,0])
+            else:
+                self.targets.append([0,0,0,1])
+        for item in read_in['Mode'][self.sample_size+34:self.sample_size+1034]:
+            if item==0:
+                self.testtar.append([1,0,0,0])
+            elif item ==1:
+                self.testtar.append([0,1,0,0])
+            elif item ==2:
+                self.testtar.append([0,0,1,0])
+            else:
+                self.testtar.append([0,0,0,1])
+        #self.targets = list(read_in['Mode'])[34:]
         # for i in xrange(len(read_in)):
         for i in xrange(34, self.sample_size+34): 
             feature = []
-            for key in read_in.columns.values[4:]:
+            for ind in [5,7]+range(9,30)+range(33,36):
+                key = read_in.columns.values[ind]
                 feature.append(float(read_in[key][i]))
-            target = [0,0,0] # rising falling unchanging
-            if float(read_in['LastPrice'][i+1]) > float(read_in['LastPrice'][i]):
-                target[0] = 1
-            elif float(read_in['LastPrice'][i+1]) == float(read_in['LastPrice'][i]):
-                target[1] = 1
-            else:
-                target[2] = 1
+            target = [0,0]
+            target[int(float(read_in['LastPrice'][i+1]) > float(read_in['LastPrice'][i]))]=1
             self.features.append(feature)
-            self.targets.append(target)
+        for i in xrange(self.sample_size+34,self.sample_size+1034): 
+            feature = []
+            for ind in [5,7]+range(9,30)+range(33,36):
+                key = read_in.columns.values[ind]
+                feature.append(float(read_in[key][i]))
+            target = [0,0]
+            target[int(float(read_in['LastPrice'][i+1]) > float(read_in['LastPrice'][i]))]=1
+            self.testset.append(feature)
+        # print np.array(self.features).shape
 
     def padding(self):
         # print len(self.features), len(self.targets)
