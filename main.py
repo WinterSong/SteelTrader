@@ -7,19 +7,19 @@ from utils import reader
 from utils import lstm
 import numpy as np
 
-file1 = "data/new_gz/TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
-file2 = "data/new_gz/TK_IC1604[s20160401 00093000_e20160428 00153000]20160429_1033.csv"
+file1 = "data/TK_IH1609[s20160401 00093000_e20160428 00153000]20160429_1032.csv"
+file2 = "data/TK_IC1604[s20160401 00093000_e20160428 00153000]20160429_1033.csv"
 
 
 
 conf = {
     'filename':file2,
-    'nb_epoch':10000,
+    'nb_epoch':3000,
     'batch_size':5,
-    'maxlen': 32,
+    'maxlen': 20,
     'sample_size':10000,
     'context_size':0,
-    'input_dim':32,
+    'input_dim':26,
     'hidden_size': 100,
     'learning_rate':0.05,
     'scale': 1
@@ -29,28 +29,16 @@ print "Begin to load data"
 reader = reader(conf)
 reader.get_data()
 # reader.padding()
-a = 0
-b = 0
-c = 0
-for i in reader.targets:
-    if i[0] == 1:
-        a += 1
-    elif i[1] == 1:
-        b += 1
-    elif i[2] == 1:
-        c += 1
-print a, b, c, a+b+c
-exit()
 features = reader.features
 targets = reader.targets
-print np.array(features).shape
 print "Load data complete"
 
 print "Begin to build Networks"
 network = lstm(conf)
 network.build_net()
 print "Build Networks complete"
-print  network.fit(features, targets)
+# print  network.fit(features, targets)
+print network.test(features, targets, reader.testset,reader.testtar)
 # network.draw("model.png")
 
 
